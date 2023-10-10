@@ -1,95 +1,45 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client"
+import styles from './page.module.css';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/dist/ScrollTrigger';
+import { useRef, useEffect } from 'react';
 
-export default function Home() {
+gsap.registerPlugin(ScrollTrigger);
+
+export default function Home(): JSX.Element {
+  const images = useRef<HTMLInputElement>(null);
+  const imgs = ["galaxy1.avif", "galaxy2.jpg", "galaxy3.jpeg", "galaxy4.jpeg", "galaxy5.jpeg", "galaxy6.jpg", "galaxy7.avif","galaxy8.jpeg","galaxy9.avif"];
+
+  useEffect(() => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: `.${styles.wrapper}`,
+        pin: true,
+        scrub: 7,
+        start: "top top",
+        end:"1"
+      }
+    });
+
+    tl.to(`.${styles.img}`, { scale: 1 }, 0);
+    tl.to(`.${styles.items}`, { scale: 1, rotate: 0 }, 0);
+    tl.to(`.${styles.overlay}`, { height: "100%"}, .2);
+    tl.to(`.${styles.h1}`, { scale: 1 }, 0.6);
+    tl.to(`.${styles.items}`, { scale: .8, opacity: .2 }, 0.6);
+  }, []);
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
+    <div className={styles.wrapper}>
+      <div ref={images} className={styles.items}>
+        {imgs.map((img, i) => (
+          <div className={styles.item} key={i}>
+            <img className={styles.img} src={img} />
+          </div>
+        ))}
       </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+      <div className={styles.overlay}>
+        <h1 className={styles.h1}>AWESOME</h1>
       </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+    </div>
+  );
 }
