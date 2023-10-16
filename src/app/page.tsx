@@ -15,17 +15,18 @@ export default function Home(): JSX.Element {
       scrollTrigger: {
         trigger: `.${styles.wrapper}`,
         pin: true,
-        scrub: 7,
+        scrub: 6,
         start: "top top",
-        end:"1"
+        end:"bottom bottom"
       }
     });
 
     tl.to(`.${styles.img}`, { scale: 1 }, 0);
-    tl.to(`.${styles.items}`, { scale: 1, rotate: 0 }, 0);
+    tl.to(`.${styles.items}`, { rotate: 0 }, 0);
     tl.to(`.${styles.overlay}`, { height: "100%"}, .2);
     tl.to(`.${styles.h1}`, { scale: 1 }, 0.6);
     tl.to(`.${styles.items}`, { scale: .8, opacity: .2 }, 0.6);
+    tl.to(`.${styles.h1}`, { x:100 }, 2);
   }, []);
 
   return (
